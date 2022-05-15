@@ -2,7 +2,7 @@
 /// <reference path="../../dist/types.d.ts" />
 
 describe('cy.gql', () => {
-    it('calls gql method', () => {
+    it('calls gql command', () => {
         cy.gql(
             `query HelloWorld{
                 hello
@@ -11,7 +11,7 @@ describe('cy.gql', () => {
     })
 
 
-    it('calls several times', () => {
+    it('calls gql several times', () => {
         const payload =
             `query HelloWorld{
                 hello
@@ -22,7 +22,7 @@ describe('cy.gql', () => {
         cy.gql(payload)
     })
 
-    it('yields API call result', () => {
+    it('yields graphql query result', () => {
         cy.gql(
             `query HelloWorld{
                 hello

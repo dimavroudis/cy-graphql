@@ -1,4 +1,4 @@
-# @bahmutov/cy-api
+# @mavrou/cy-graphql
 ![cypress version](https://img.shields.io/badge/cypress-9.6.1-brightgreen)
 > A collection of custom commands for end-to-end GraphQL testing
 
