@@ -60,7 +60,7 @@ Cypress.Commands.add('interceptGql', (operationName: string) => {
     const hasOperationName = (req: any, operationName: string) => {
         const { body } = req;
         return (
-            body.hasOwnProperty('operationName') && body.operationName === operationName
+            has(body, 'operationName') && body.operationName === operationName
         );
     };
 
@@ -69,4 +69,4 @@ Cypress.Commands.add('interceptGql', (operationName: string) => {
             req.alias = `gql${operationName}`;
         }
     });
-})
+});

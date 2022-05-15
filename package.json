@@ -10,9 +10,9 @@
   "scripts": {
     "test": "cypress run",
     "cy:open": "cypress open",
-    "start": "node -r ./server",
-    "e2e": "start-test 3003",
-    "dev": "start-test 3003 cy:open",
+    "start": "node server",
+    "e2e": "start-test 4000",
+    "dev": "start-test 4000 cy:open",
     "semantic-release": "semantic-release",
     "build": "tsc",
     "build:watch": "tsc --watch"
