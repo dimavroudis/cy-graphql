@@ -3,8 +3,8 @@
 const { get, has } = Cypress._;
 
 Cypress.Commands.add('gql', (query: string, variables: Object = {}, options: Partial<Cypress.RequestOptions> = {}) => {
-
-    const url = get(Cypress.env(), 'graphqlUrl', null);
+    //Use options.url if exists and use GQL_URL as fallback
+    const url = get(options, 'url', get(Cypress.env(), 'GQL_URL', null));
     const body = { query, variables };
     const headers = {
         ...(get(options, 'headers') || {}),
@@ -13,19 +13,20 @@ Cypress.Commands.add('gql', (query: string, variables: Object = {}, options: Par
     };
 
     if (!url) {
-        throw new Error('Graphql URL endpoint is not defined.');
+        throw new Error('Environment variable GQL_URL is not defined.');
     }
     options = {
         ...options,
         headers,
         body,
         url,
-        log: false
     };
+
+    const message = get(options.body, 'query', options.url);
 
     // log the message before requests in case it fails
     Cypress.log({
-        message: options.url,
+        message,
         consoleProps() {
             return {
                 request: options
@@ -33,14 +34,13 @@ Cypress.Commands.add('gql', (query: string, variables: Object = {}, options: Par
         }
     });
 
-    cy.request(options).then((response) => {
+    cy.request({ ...options, log: false }).then((response) => {
         // log the response
         Cypress.log({
             name: 'response',
-            message: options.url,
+            message,
             consoleProps() {
                 return {
-                    type: typeof response.body,
                     response: response.body
                 }
             }
@@ -52,9 +52,9 @@ Cypress.Commands.add('gql', (query: string, variables: Object = {}, options: Par
 })
 
 Cypress.Commands.add('interceptGql', (operationName: string) => {
-    const url = get(Cypress.env(), 'graphqlUrl', null);
+    const url = get(Cypress.env(), 'GQL_URL', null);
     if (!url) {
-        throw new Error('Graphql URL endpoint is not defined.');
+        throw new Error('Environment variable GQL_URL is not defined.');
     }
 
     const hasOperationName = (req: any, operationName: string) => {
