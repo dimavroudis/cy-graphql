@@ -1,0 +1,43 @@
+{
+  "name": "cy-grapql",
+  "version": "0.0.1",
+  "description": "Cypress custom commands for grapql testing",
+  "main": "dist/index.js",
+  "types": "dist/types.d.ts",
+  "files": [
+    "/dist/*"
+  ],
+  "scripts": {
+    "test": "cypress run",
+    "cy:open": "cypress open",
+    "start": "node -r ./server",
+    "e2e": "start-test 3003",
+    "dev": "start-test 3003 cy:open",
+    "semantic-release": "semantic-release",
+    "build": "tsc",
+    "build:watch": "tsc --watch"
+  },
+  "keywords": [
+    "cypress",
+    "graphql",
+    "cy-graphql"
+  ],
+  "author": "Dimitris Mavroudis <im.dimitris.mavroudis@gmail.com> (https://mavrou.gr/)",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "17.0.18",
+    "cypress": "^9.6.1",
+    "express": "^4.18.1",
+    "express-graphql": "^0.12.0",
+    "graphql": "^15.8.0",
+    "semantic-release": "^19.0.2",
+    "start-server-and-test": "^1.14.0",
+    "typescript": "4.5.4"
+  },
+  "peerDependencies": {
+    "cypress": ">=3"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
