@@ -1,7 +1,7 @@
 {
-  "name": "cy-grapql",
+  "name": "@mavrou/cy-graphql",
   "version": "0.0.1",
-  "description": "Cypress custom commands for grapql testing",
+  "description": "Cypress custom commands for GraphQL testing",
   "main": "dist/index.js",
   "types": "dist/types.d.ts",
   "files": [
@@ -39,5 +39,13 @@
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dimavroudis/cy-graphql.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dimavroudis/cy-graphql/issues"
+  },
+  "homepage": "https://github.com/dimavroudis/cy-graphql#readme"
 }

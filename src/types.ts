@@ -3,7 +3,7 @@ declare namespace Cypress {
 
     interface Chainable {
         /**
-         * Custom command to execute GraphQl operations to the server.
+         * Custom command to execute GraphQL operations to the server.
          *
          * @example
          *      cy.gql(
@@ -36,7 +36,7 @@ declare namespace Cypress {
         gql<T>(query: string, variables?: Object, options?: Partial<Cypress.RequestOptions>): Chainable<Response<T>>
 
         /**
-        * Use `cy.interceptGql()` to stub and intercept GraphQl requests and responses.
+        * Use `cy.interceptGql()` to stub and intercept GraphQL requests and responses.
         *
         * @example
         *      cy.interceptGql('gqlGetProject');
