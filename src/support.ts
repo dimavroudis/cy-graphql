@@ -66,7 +66,7 @@ Cypress.Commands.add('interceptGql', (operationName: string) => {
 
     cy.intercept('POST', url, (req) => {
         if (hasOperationName(req, operationName)) {
-            req.alias = `gql${operationName}`;
+            req.alias = operationName;
         }
     });
 });

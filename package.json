@@ -1,6 +1,6 @@
 {
   "name": "@mavrou/cy-graphql",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Cypress custom commands for GraphQL testing",
   "main": "dist/index.js",
   "types": "dist/types.d.ts",
