@@ -39,8 +39,8 @@ declare namespace Cypress {
         * Use `cy.interceptGql()` to stub and intercept GraphQL requests and responses.
         *
         * @example
-        *      cy.interceptGql('gqlGetProject');
-        *      cy.wait('@gqlGetProject);
+        *      cy.interceptGql('HelloWorld');
+        *      cy.wait('@HelloWorld);
         */
         interceptGql(operationName:string): Chainable<null>
     }
