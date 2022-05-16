@@ -51,22 +51,50 @@ Cypress.Commands.add('gql', (query: string, variables: Object = {}, options: Par
 
 })
 
-Cypress.Commands.add('interceptGql', (operationName: string) => {
+Cypress.Commands.add('interceptGql', (operationName: string | string[], variableRules?: VariableRule[], alias?: string) => {
     const url = get(Cypress.env(), 'GQL_URL', null);
     if (!url) {
         throw new Error('Environment variable GQL_URL is not defined.');
     }
 
-    const hasOperationName = (req: any, operationName: string) => {
+    let operationNames: string[] = [];
+
+    if (typeof operationName === 'string') {
+        operationNames.push(operationName);
+    }
+
+    if (Array.isArray(operationName)) {
+        operationNames = [...operationName];
+        variableRules = undefined;
+        alias = undefined;
+    }
+
+    const matchesOperationName = (req: any, operationName: string) => {
         const { body } = req;
         return (
             has(body, 'operationName') && body.operationName === operationName
         );
     };
 
+    const matchesVariables = (req: any) => {
+        const variables = get(req.body, 'variables', null)
+        if (!variableRules || !variables) {
+            return true;
+        }
+
+        for (let rule of variableRules) {
+            if (has(variables, rule.propertyPath) && (!has(rule,'value') || get(variables, rule.propertyPath) === rule.value)) {
+                return true;
+            }
+        }
+
+    }
+
     cy.intercept('POST', url, (req) => {
-        if (hasOperationName(req, operationName)) {
-            req.alias = operationName;
+        for (const name of operationNames) {
+            if (matchesOperationName(req, name) && matchesVariables(req)) {
+                req.alias = alias ?? name;
+            }
         }
     });
 });

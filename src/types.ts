@@ -1,3 +1,7 @@
+interface VariableRule {
+    propertyPath: string,
+    value?: any
+}
 
 declare namespace Cypress {
 
@@ -36,12 +40,25 @@ declare namespace Cypress {
         gql<T>(query: string, variables?: Object, options?: Partial<Cypress.RequestOptions>): Chainable<Response<T>>
 
         /**
-        * Use `cy.interceptGql()` to stub and intercept GraphQL requests and responses.
-        *
+         * Use `cy.interceptGql()` to intercept a GraphQL request by its operationName and its variables.
+         *
+         * @example
+         *      cy.interceptGql('HelloWorld');
+         *      cy.wait('@HelloWorld);
+         * 
         * @example
-        *      cy.interceptGql('HelloWorld');
-        *      cy.wait('@HelloWorld);
-        */
-        interceptGql(operationName:string): Chainable<null>
+         *      cy.interceptGql('GetTodos', [{ propertyPath: 'showHidden', value:true }], 'GetAllTodos');
+         *      cy.wait('@GetAllTodos);
+         */
+        interceptGql(operationName: string, variablesRules?: VariableRule[], alias?: string): Chainable<null>
+
+        /**
+         * Use `cy.interceptGql()` to intercept a list of GraphQL requests by their operationName
+         *
+         * @example
+         *      cy.interceptGql(['HelloWorld', 'getTodo']);
+         *      cy.wait(['@HelloWorld', '@getTodo']);
+         */
+        interceptGql(operationName: string[]): Chainable<null>
     }
 }

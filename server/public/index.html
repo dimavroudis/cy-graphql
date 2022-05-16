@@ -1,0 +1,93 @@
+<html>
+
+<body>
+    <div id="app">
+        <h1 id="title"></h1>
+        <h2>All Todo</h2>
+        <ul id="allTodos"></ul>
+        <h2>Public Todo</h2>
+        <ul id="hiddenTodos"></ul>
+    </div>
+    <script>
+        const appendListItems = (list, json) => {
+            const listItems = [];
+            json.data.todos.forEach(todo => {
+                const listitem = document.createElement('li')
+                listitem.textContent = todo.text;
+                if (todo.hidden === true) {
+                    listitem.textContent += ' (Hidden)'
+                }
+                listitem.setAttribute('data-id', todo.id);
+                listItems.push(listitem);
+            });
+            list.append(...listItems);
+        }
+        fetch('/graphql', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify({
+                operationName: "HelloWorld",
+                query: "query HelloWorld{ hello }"
+            })
+        })
+            .then(r => r.json())
+            .then(json => document.querySelector('#title').innerHTML = json.data.hello);
+
+        fetch('/graphql', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify({
+                operationName: "GetTodos",
+                query: `query GetTodos($showHidden:Boolean){
+                    todos(showHidden:$showHidden){
+                        id
+                        text
+                        hidden
+                    }
+                }`,
+                variables: {
+                    showHidden: true
+                }
+            })
+        })
+            .then(r => r.json())
+            .then(json => {
+                const list = document.querySelector('#allTodos');
+                appendListItems(list, json);
+            });
+
+        fetch('/graphql', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify({
+                operationName: "GetTodos",
+                query: `query GetTodos($showHidden:Boolean){
+                    todos(showHidden:$showHidden){
+                        id
+                        text
+                        hidden
+                    }
+                }`,
+                variables: {
+                    showHidden: false
+                }
+            })
+        })
+            .then(r => r.json())
+            .then(json => {
+                const list = document.querySelector('#hiddenTodos');
+                appendListItems(list, json);
+            });
+    </script>
+</body>
+
+</html>
