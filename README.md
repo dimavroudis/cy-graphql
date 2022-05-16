@@ -21,11 +21,121 @@ Add the following line to your Cypress support file
 import '@mavrou/cy-graphql'
 ```
 
+Set the `GQL_URL` environment variable to your cypress.json to point to you GraphQL endpoint.
+
+```json
+{
+    "env": {
+        //replace value with your own GraphQL endpoint
+        "GQL_URL": "http://localhost:4000/graphql" 
+    }
+}
+```
+## Usage
+
+### cy.gql
+
+cy.gql is wrapper od cy.request that makes it easy to create GraphQL requests from a cypress test
+```js
+cy.gql(
+    `query HelloWorld{
+        hello
+    }`,
+).then(response => {
+    expect(response).to.include.keys([
+        'status',
+        'statusText',
+        'body',
+        'requestHeaders',
+        'headers',
+        'duration'
+    ])
+    expect(response.body).to.deep.equal({
+        data: {
+            hello: 'Hello world!'
+        }
+    });
+});
+```
+
+You can pass variables as second argument.
+```js
+cy.gql(
+    `query GetTodo($id: Int){
+        todo(id:$id){
+            id
+            text
+        }
+    }`,
+    { id: 1 }
+)
+```
+
+You can pass extra options, similar to `cy.request` as a 3rd argument. [Accepts these value](https://docs.cypress.io/api/commands/request#Arguments) except `url` and `body`. 
+```js
+cy.gql(
+    `query GetTodo($id: Int){
+        todo(id:$id){
+            id
+            text
+        }
+    }`,
+    { id: 1 },
+    { 
+        auth: {
+            bearer: 'bearerToken'
+        }
+    }
+)
+```
+
+### cy.interceptGql
+
+`cy.interceptGql` allows fast and easy interception of GraphQL requests using only the operationName.
+```js
+cy.interceptGql("HelloWorld");
+cy.visit('');
+cy.wait('@HelloWorld').then(intercept => {
+    expect(intercept.response.body).to.deep.equal({
+        data: {
+            hello: 'Hello world!'
+        }
+    });
+})
+```
+
+You can also intercept multiple GraphQL requests by passing an array of operationNames
+```js
+cy.interceptGql(['HelloWorld', 'GetTodo']);
+cy.visit('');
+cy.wait(['@HelloWorld', '@GetTodo'])
+```
+
+You can use variables to improve selection. The 2nd argument accepts an array of rules to match against the variables. 
+In this case, you can also add a 3rd argument for a custom alias.
+```js
+cy.interceptGql('GetTodo', [{ propertyPath: 'showHidden', value: false }], 'GetPublicTodo');
+cy.visit('');
+cy.wait('@GetPublicTodo').then(intercept => {
+    expect(intercept.request.body).to.have.property('operationName', 'GetTodo');
+    expect(intercept.request.body).to.have.nested.property('variables.showHidden', false);
+})
+```
+Using a nested propertyPath will also work. If no 'value' is passed, it matches requests that have the property)
+```js
+cy.interceptGql('GetTodo', [{ propertyPath: 'params.showHidden' }], 'GetPublicTodo');
+cy.visit('');
+cy.wait('@GetPublicTodo').then(intercept => {
+    expect(intercept.request.body).to.have.property('operationName', 'GetTodo');
+    expect(intercept.request.body).to.have.nested.property('variables.showHidden', false);
+})
+```
+
 ## Configuration
 
-| var env | default value | description |
-|---------|---------------|-------------|
-| CYPRESS_GQL_URL | null | The url of the GraphQL endpoint (Required) |
+| var env         | default value | description                                |
+| --------------- | ------------- | ------------------------------------------ |
+| CYPRESS_GQL_URL | null          | The url of the GraphQL endpoint (Required) |
 
 ## TypeScript
 
