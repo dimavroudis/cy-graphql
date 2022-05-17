@@ -8,7 +8,7 @@
   },
   "prHourlyLimit": 2,
   "updateNotScheduled": false,
-  "timezone": "Europe/Athend",
+  "timezone": "Europe/Athens",
   "schedule": [
     "every weekend"
   ],
@@ -20,7 +20,6 @@
       ],
       "excludePackagePatterns": [
         "cypress",
-        "semantic-release",
         "start-server-and-test"
       ],
       "enabled": false
