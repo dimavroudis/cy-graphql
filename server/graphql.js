@@ -14,7 +14,11 @@ const schema = buildSchema(`
   }
 `);
 
-const printHelloWorld = function () {
+const printHelloWorld = async function (_, context) {
+    const { token } = await context();
+    if(token){
+        return 'Hello you!';
+    }
     return 'Hello world!';
 }
 
