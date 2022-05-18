@@ -16,7 +16,7 @@ describe('cy.gql', () => {
             `query HelloWorld{
                 hello
             }`;
-            
+
         cy.gql(payload)
         cy.gql(payload)
         cy.gql(payload)
@@ -44,4 +44,41 @@ describe('cy.gql', () => {
         });
     })
 
+    it('calls gql command with variables', () => {
+        cy.gql(
+            `query todo($id:Int!){
+                todo(id:$id){
+                    id
+                }
+            }`,
+            {
+                variables: { id: 1 },
+            }
+        ).then(response => {
+            expect(response.body).to.deep.equal({
+                data: {
+                    todo: {
+                        id: 1
+                    }
+                }
+            });
+        });
+    })
+
+    it('calls gql command with cy.request options', () => {
+        cy.gql(
+            `query HelloWorld{
+                hello
+            }`,
+            {
+                headers: { 'Authorization': "Bearer bearerToken" }
+            }
+        ).then(response => {
+            expect(response.body).to.deep.equal({
+                data: {
+                    hello: 'Hello you!'
+                }
+            });
+        });
+    })
 })

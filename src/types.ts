@@ -3,13 +3,24 @@ import * as NetStubbing from 'cypress/types/net-stubbing';
 
 declare global {
 
+    type GqlRequestInterceptor = (req: NetStubbing.CyHttpMessages.IncomingHttpRequest) => void | Promise<void>
+
     interface VariableRule {
         propertyPath: string,
         value?: any
     }
-    
-    type GqlRequestInterceptor = (req: NetStubbing.CyHttpMessages.IncomingHttpRequest) => void | Promise<void>
-    
+
+    interface GraphQLOptions extends Cypress.Loggable, Cypress.Timeoutable, Cypress.Failable {
+        auth: object
+        encoding: Cypress.Encodings
+        followRedirect: boolean
+        form: boolean
+        gzip: boolean
+        headers: object
+        qs: object
+        variables: object
+    }
+
     namespace Cypress {
 
         interface Chainable {
@@ -18,13 +29,14 @@ declare global {
              *
              * @example
              *      cy.gql(
-             *          `query GetProject($id: ID!){
-             *              project(id: $id){
+             *          `query todo($id:Int!){
+             *              todo(id:$id){
              *                  id
-             *                  title
              *              }
-             *          }`, 
-             *          { id: 1 }
+             *          }`,
+             *          {
+             *              variables: { id: 1 },
+             *          }
              *      ).then(response => {
              *          expect(response).to.include.keys([
              *              'status',
@@ -44,7 +56,7 @@ declare global {
              *          });
              *      });
              */
-            gql<T>(query: string, variables?: Object, options?: Partial<Cypress.RequestOptions>): Chainable<Response<T>>
+            gql<T>(query: string, options?: Partial<GraphQLOptions>): Chainable<Response<T>>
 
             /**
              * Use `cy.interceptGql()` to intercept a GraphQL request by its operationName.

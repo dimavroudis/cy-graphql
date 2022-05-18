@@ -58,7 +58,7 @@ cy.gql(
 });
 ```
 
-You can pass variables as second argument.
+The second argument accepts options similar to `cy.request` [(accepts these value)](https://docs.cypress.io/api/commands/request#Arguments, except `url`, `body` and  `method`). It also accepts an additional option `variables` that allows you to pass GraphQL variables.
 ```js
 cy.gql(
     `query GetTodo($id: Int){
@@ -67,24 +67,9 @@ cy.gql(
             text
         }
     }`,
-    { id: 1 }
-)
-```
-
-You can pass extra options, similar to `cy.request` as a 3rd argument. [Accepts these value](https://docs.cypress.io/api/commands/request#Arguments) except `url` and `body`. 
-```js
-cy.gql(
-    `query GetTodo($id: Int){
-        todo(id:$id){
-            id
-            text
-        }
-    }`,
-    { id: 1 },
     { 
-        auth: {
-            bearer: 'bearerToken'
-        }
+        variables:{ id: 1 }
+        auth: { bearer: 'bearerToken' }
     }
 )
 ```
