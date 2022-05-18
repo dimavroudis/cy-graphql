@@ -3,6 +3,17 @@ interface VariableRule {
     value?: any
 }
 
+interface GraphQLOptions extends Cypress.Loggable, Cypress.Timeoutable, Cypress.Failable {
+    auth: object
+    encoding: Cypress.Encodings
+    followRedirect: boolean
+    form: boolean
+    gzip: boolean
+    headers: object
+    qs: object
+    variables: object
+}
+
 declare namespace Cypress {
 
     interface Chainable {
@@ -11,13 +22,14 @@ declare namespace Cypress {
          *
          * @example
          *      cy.gql(
-         *          `query GetProject($id: ID!){
-         *              project(id: $id){
+         *          `query todo($id:Int!){
+         *              todo(id:$id){
          *                  id
-         *                  title
          *              }
-         *          }`, 
-         *          { id: 1 }
+         *          }`,
+         *          {
+         *              variables: { id: 1 },
+         *          }
          *      ).then(response => {
          *          expect(response).to.include.keys([
          *              'status',
@@ -37,7 +49,7 @@ declare namespace Cypress {
          *          });
          *      });
          */
-        gql<T>(query: string, variables?: Object, options?: Partial<Cypress.RequestOptions>): Chainable<Response<T>>
+        gql<T>(query: string, options?: Partial<GraphQLOptions>): Chainable<Response<T>>
 
         /**
          * Use `cy.interceptGql()` to intercept a GraphQL request by its operationName and its variables.

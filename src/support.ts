@@ -2,10 +2,17 @@
 
 const { get, has } = Cypress._;
 
-Cypress.Commands.add('gql', (query: string, variables: Object = {}, options: Partial<Cypress.RequestOptions> = {}) => {
+Cypress.Commands.add('gql', (query: string, options: Partial<GraphQLOptions> = {}) => {
+    let _options = { ...options };
     //Use options.url if exists and use GQL_URL as fallback
-    const url = get(options, 'url', get(Cypress.env(), 'GQL_URL', null));
-    const body = { query, variables };
+    const url = get(_options, 'url', get(Cypress.env(), 'GQL_URL', null));
+    const body = { query, variables: {} };
+
+    if (_options.variables) {
+        body.variables = _options.variables;
+        delete _options.variables;
+    }
+
     const headers = {
         ...(get(options, 'headers') || {}),
         'Content-Type': 'application/json',
@@ -15,26 +22,27 @@ Cypress.Commands.add('gql', (query: string, variables: Object = {}, options: Par
     if (!url) {
         throw new Error('Environment variable GQL_URL is not defined.');
     }
-    options = {
-        ...options,
+
+    const requestOptions = {
+        ..._options,
         headers,
         body,
         url,
     };
 
-    const message = get(options.body, 'query', options.url);
+    const message = get(requestOptions.body, 'query', requestOptions.url);
 
     // log the message before requests in case it fails
     Cypress.log({
         message,
         consoleProps() {
             return {
-                request: options
+                request: requestOptions
             }
         }
     });
 
-    cy.request({ ...options, log: false }).then((response) => {
+    cy.request({ ...requestOptions, log: false }).then((response) => {
         // log the response
         Cypress.log({
             name: 'response',
@@ -83,7 +91,7 @@ Cypress.Commands.add('interceptGql', (operationName: string | string[], variable
         }
 
         for (let rule of variableRules) {
-            if (has(variables, rule.propertyPath) && (!has(rule,'value') || get(variables, rule.propertyPath) === rule.value)) {
+            if (has(variables, rule.propertyPath) && (!has(rule, 'value') || get(variables, rule.propertyPath) === rule.value)) {
                 return true;
             }
         }
