@@ -96,19 +96,49 @@ cy.visit('');
 cy.wait(['@HelloWorld', '@GetTodo'])
 ```
 
-You can use variables to improve selection. The 2nd argument accepts an array of rules to match against the variables. 
-In this case, you can also add a 3rd argument for a custom alias.
+Similar to intercept you can pass a [routeHandler](https://docs.cypress.io/api/commands/intercept#routeHandler-lt-code-gtFunctionlt-code-gt).
+The `routeHandler` function is called whenever a request is matched, with the first argument being the request object. From inside the callback, you have access to the entire request-response where you can modify the outgoing request, send a response, access the real response, and more.
 ```js
-cy.interceptGql('GetTodo', [{ propertyPath: 'showHidden', value: false }], 'GetPublicTodo');
+cy.interceptGql("HelloWorld", (req) => req.alias = 'Lesson101'));
+cy.visit('');
+cy.wait('@Lesson101').then(intercept => {
+    expect(intercept.response.body).to.deep.equal({
+        data: {
+            hello: 'Hello world!'
+        }
+    });
+})
+```
+
+Sometimes you can have a lot of request with the same operationName, but different variables. Using the variableRules you can intercept requests based on the propertyPath and/or value of a variable. Nested property paths are supported and the `value` key-value pair is optional.
+```js
+cy.interceptGql('GetTodo', [{ propertyPath: 'params.showHidden', value: false }]);
 cy.visit('');
 cy.wait('@GetPublicTodo').then(intercept => {
     expect(intercept.request.body).to.have.property('operationName', 'GetTodo');
     expect(intercept.request.body).to.have.nested.property('variables.showHidden', false);
 })
 ```
-Using a nested propertyPath will also work. If no 'value' is passed, it matches requests that have the property)
 ```js
-cy.interceptGql('GetTodo', [{ propertyPath: 'params.showHidden' }], 'GetPublicTodo');
+cy.interceptGql('GetTodo', [{ propertyPath: 'params.showHidden' }]);
+cy.visit('');
+cy.wait('@GetPublicTodo').then(intercept => {
+    expect(intercept.request.body).to.have.property('operationName', 'GetTodo');
+    expect(intercept.request.body).to.have.nested.property('variables.showHidden', false);
+})
+```
+```js
+cy.interceptGql('GetTodo', [{ propertyPath: 'params.showHidden' }], , (req) => req.alias = 'GetAllTodo'));
+cy.visit('');
+cy.wait('@GetPublicTodo').then(intercept => {
+    expect(intercept.request.body).to.have.property('operationName', 'GetTodo');
+    expect(intercept.request.body).to.have.nested.property('variables.showHidden', false);
+})
+```
+
+You can even shorten the last example, by passing a custom alias as the 3rd argument.
+```js
+cy.interceptGql('GetTodo', [{ propertyPath: 'params.showHidden' }], 'GetAllTodo');
 cy.visit('');
 cy.wait('@GetPublicTodo').then(intercept => {
     expect(intercept.request.body).to.have.property('operationName', 'GetTodo');
