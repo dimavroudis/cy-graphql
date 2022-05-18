@@ -58,7 +58,7 @@ cy.gql(
 });
 ```
 
-The second argument accepts options similar to `cy.request` [(accepts these value)](https://docs.cypress.io/api/commands/request#Arguments, except `url`, `body` and  `method`). It also accepts an additional option `variables` that allows you to pass GraphQL variables.
+The second argument accepts options similar to `cy.request` [(accepts these value)](https://docs.cypress.io/api/commands/request#Arguments), except `url`, `body` and  `method`). It also accepts an additional option `variables` that allows you to pass GraphQL variables.
 ```js
 cy.gql(
     `query GetTodo($id: Int){
@@ -110,7 +110,7 @@ cy.wait('@Lesson101').then(intercept => {
 })
 ```
 
-Sometimes you can have a lot of request with the same operationName, but different variables. Using the variableRules you can intercept requests based on the propertyPath and/or value of a variable. Nested property paths are supported and the `value` key-value pair is optional.
+Sometimes you can have a lot of request with the same operationName, but different variables. Using the `variableRules` you can intercept requests based on the propertyPath and/or value of a variable. Nested property paths are supported and the `value` key-value pair is optional.
 ```js
 cy.interceptGql('GetTodo', [{ propertyPath: 'params.showHidden', value: false }]);
 cy.visit('');
@@ -136,7 +136,7 @@ cy.wait('@GetPublicTodo').then(intercept => {
 })
 ```
 
-You can even shorten the last example, by passing a custom alias as the 3rd argument.
+You can even shorten the last example, by passing a custom `alias` as the 3rd argument.
 ```js
 cy.interceptGql('GetTodo', [{ propertyPath: 'params.showHidden' }], 'GetAllTodo');
 cy.visit('');
