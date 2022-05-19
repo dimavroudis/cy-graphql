@@ -4,8 +4,8 @@ const { get, has } = Cypress._;
 
 Cypress.Commands.add('gql', (query: string, options: Partial<GraphQLOptions> = {}) => {
     let _options = { ...options };
-    //Use options.url if exists and use GQL_URL as fallback
-    const url = get(_options, 'url', get(Cypress.env(), 'GQL_URL', null));
+    //Use options.url if exists and use gqlUrl config as fallback
+    const url = get(_options, 'url', get(Cypress.config(), 'gqlUrl', null));
     const body = { query, variables: {} };
 
     if (_options.variables) {
@@ -20,7 +20,7 @@ Cypress.Commands.add('gql', (query: string, options: Partial<GraphQLOptions> = {
     };
 
     if (!url) {
-        throw new Error('Environment variable GQL_URL is not defined.');
+        throw new Error('A GraphQL endpoint url is not defined. Set global configuration `gqlUrl` in `cypress.json` or add the `url` option.');
     }
 
     const requestOptions = {
@@ -61,9 +61,9 @@ Cypress.Commands.add('gql', (query: string, options: Partial<GraphQLOptions> = {
 
 Cypress.Commands.add('interceptGql', function (...args: [operationName: string, callback?: GqlRequestInterceptor] | [operationName: string, variablesRules?: VariableRule[], alias?: string] | [operationName: string, variablesRules?: VariableRule[], callback?: GqlRequestInterceptor] | [operationName: string[]]) {
 
-    const url = get(Cypress.env(), 'GQL_URL', null);
+    const url = get(Cypress.config(), 'gqlUrl', null);
     if (!url) {
-        throw new Error('Environment variable GQL_URL is not defined.');
+        throw new Error('Global configuration `gqlUrl` is not initialized.');
     }
 
     let callback: GqlRequestInterceptor | null,

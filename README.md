@@ -9,33 +9,28 @@ npm install --save-dev @mavrou/cy-graphql
 ```
 
 or
-
 ```
 yarn add -D @mavrou/cy-graphql
 ```
 
-Add the following line to your Cypress support file
-
+Add the following line to your Cypress support file.
 ```js
 // usually cypress/support/index.js
 import '@mavrou/cy-graphql'
 ```
 
-Set the `GQL_URL` environment variable to your cypress.json to point to you GraphQL endpoint.
-
+Add the `gqlUrl` global configuration to your `cypress.json`. Change the value with your own GraphQL endpoint url.
 ```json
 {
-    "env": {
-        //replace value with your own GraphQL endpoint
-        "GQL_URL": "http://localhost:4000/graphql" 
-    }
+    "gqlUrl": "http://localhost:4000/graphql" 
 }
 ```
+
 ## Usage
 
 ### cy.gql
 
-cy.gql is wrapper od cy.request that makes it easy to create GraphQL requests from a cypress test
+`cy.gql` is wrapper of `cy.request` that makes it easy to create GraphQL requests from a cypress test.
 ```js
 cy.gql(
     `query HelloWorld{
@@ -58,7 +53,7 @@ cy.gql(
 });
 ```
 
-The second argument accepts options similar to `cy.request` [(accepts these value)](https://docs.cypress.io/api/commands/request#Arguments), except `url`, `body` and  `method`). It also accepts an additional option `variables` that allows you to pass GraphQL variables.
+The second argument accepts options similar to `cy.request` [(accepts these value)](https://docs.cypress.io/api/commands/request#Arguments), except `body` and  `method`). It also accepts an additional option `variables` that allows you to pass GraphQL variables.
 ```js
 cy.gql(
     `query GetTodo($id: Int){
@@ -76,7 +71,7 @@ cy.gql(
 
 ### cy.interceptGql
 
-`cy.interceptGql` allows fast and easy interception of GraphQL requests using only the operationName.
+`cy.interceptGql` allows fast and easy interception of GraphQL requests using only the `operationName`.
 ```js
 cy.interceptGql("HelloWorld");
 cy.visit('');
@@ -89,7 +84,7 @@ cy.wait('@HelloWorld').then(intercept => {
 })
 ```
 
-You can also intercept multiple GraphQL requests by passing an array of operationNames
+You can also intercept multiple GraphQL requests by passing an array of operationNames.
 ```js
 cy.interceptGql(['HelloWorld', 'GetTodo']);
 cy.visit('');
@@ -110,7 +105,7 @@ cy.wait('@Lesson101').then(intercept => {
 })
 ```
 
-Sometimes you can have a lot of request with the same operationName, but different variables. Using the `variableRules` you can intercept requests based on the propertyPath and/or value of a variable. Nested property paths are supported and the `value` key-value pair is optional.
+Sometimes you can have a lot of request with the same operationName, but different variables. Using the `variableRules` you can intercept requests based on the property path and/or value of a variable. Nested property paths are supported and the `value` key-value pair is optional.
 ```js
 cy.interceptGql('GetTodo', [{ propertyPath: 'params.showHidden', value: false }]);
 cy.visit('');
@@ -146,15 +141,9 @@ cy.wait('@GetPublicTodo').then(intercept => {
 })
 ```
 
-## Configuration
-
-| var env         | default value | description                                |
-| --------------- | ------------- | ------------------------------------------ |
-| CYPRESS_GQL_URL | null          | The url of the GraphQL endpoint (Required) |
-
 ## TypeScript
 
-If your using TypeScript with Cypress, you can add type in your `tsconfig.json`
+If your using TypeScript with Cypress, you can add type in your `tsconfig.json`.
 
 ```json
 {
@@ -166,7 +155,6 @@ If your using TypeScript with Cypress, you can add type in your `tsconfig.json`
     }
 }
 ```
-
 
 ## MIT License
 
