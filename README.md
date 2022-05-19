@@ -30,7 +30,7 @@ Add the `gqlUrl` global configuration to your `cypress.json`. Change the value w
 
 ### cy.gql
 
-`cy.gql` is wrapper of `cy.request` that makes it easy to create GraphQL requests from a cypress test.
+`cy.gql` is a wrapper of `cy.request` that makes it easy to create GraphQL requests from a cypress test.
 ```js
 cy.gql(
     `query HelloWorld{
@@ -53,7 +53,7 @@ cy.gql(
 });
 ```
 
-The second argument accepts options similar to `cy.request` [(accepts these value)](https://docs.cypress.io/api/commands/request#Arguments), except `body` and  `method`). It also accepts an additional option `variables` that allows you to pass GraphQL variables.
+The second argument accepts options similar to `cy.request` ([accepts these values](https://docs.cypress.io/api/commands/request#Arguments), except `body` and  `method`). It also accepts an additional option `variables` that allows you to pass GraphQL variables.
 ```js
 cy.gql(
     `query GetTodo($id: Int){
@@ -105,7 +105,7 @@ cy.wait('@Lesson101').then(intercept => {
 })
 ```
 
-Sometimes you can have a lot of request with the same operationName, but different variables. Using the `variableRules` you can intercept requests based on the property path and/or value of a variable. Nested property paths are supported and the `value` key-value pair is optional.
+Sometimes you can have a lot of request with the same operationName, but different variables. Using the `variableRules` you can intercept requests based on the property path and/or value of a variable. Nested property paths are supported and the `value` property is optional to allow matching only with propertyPath.
 ```js
 cy.interceptGql('GetTodo', [{ propertyPath: 'params.showHidden', value: false }]);
 cy.visit('');
