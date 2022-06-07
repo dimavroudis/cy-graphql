@@ -5,7 +5,7 @@ const { get, has } = Cypress._;
 Cypress.Commands.add('gql', (query: string, options: Partial<GraphQLOptions> = {}) => {
     let _options = { ...options };
     //Use options.url if exists and use gqlUrl config as fallback
-    const url = get(_options, 'url', get(Cypress.config(), 'gqlUrl', null));
+    const url = get(_options, 'url', get(Cypress.env(), 'gqlUrl', null));
     const body = { query, variables: {} };
 
     if (_options.variables) {
@@ -61,7 +61,7 @@ Cypress.Commands.add('gql', (query: string, options: Partial<GraphQLOptions> = {
 
 Cypress.Commands.add('interceptGql', function (...args: [operationName: string, callback?: GqlRequestInterceptor] | [operationName: string, variablesRules?: VariableRule[], alias?: string] | [operationName: string, variablesRules?: VariableRule[], callback?: GqlRequestInterceptor] | [operationName: string[]]) {
 
-    const url = get(Cypress.config(), 'gqlUrl', null);
+    const url = get(Cypress.env(), 'gqlUrl', null);
     if (!url) {
         throw new Error('Global configuration `gqlUrl` is not initialized.');
     }

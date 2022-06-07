@@ -19,10 +19,12 @@ Add the following line to your Cypress support file.
 import '@mavrou/cy-graphql'
 ```
 
-Add the `gqlUrl` global configuration to your `cypress.json`. Change the value with your own GraphQL endpoint url.
+Add the `gqlUrl` environmental variable to your `cypress.config.ts` or `cypress.config.js`. Change the value with your own GraphQL endpoint url.
 ```json
 {
-    "gqlUrl": "http://localhost:4000/graphql" 
+    "env": {
+        "gqlUrl": "http://localhost:4000/graphql" 
+    }
 }
 ```
 
