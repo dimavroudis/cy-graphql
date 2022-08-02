@@ -7,6 +7,14 @@ describe('cy.interceptGql', () => {
         })
     });
 
+    it('intercept request that has variables', () => {
+        cy.interceptGql('GetTodos');
+        cy.visit('');
+        cy.wait('@GetTodos').then(intercept => {
+            expect(intercept.request.body).to.have.property('operationName', 'GetTodos');
+        })
+    });
+
     it('intercept request with operationName and callback', () => {
         cy.interceptGql("HelloWorld", (req =>{
             req.alias = '101'

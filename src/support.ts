@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-const { get, has } = Cypress._;
+const { get, has, isEmpty } = Cypress._;
 
 Cypress.Commands.add('gql', (query: string, options: Partial<GraphQLOptions> = {}) => {
     let _options = { ...options };
@@ -90,7 +90,7 @@ Cypress.Commands.add('interceptGql', function (...args: [operationName: string, 
 
     const matchesVariables = (req: any) => {
         const variables = get(req.body, 'variables', null)
-        if (!variableRules || !variables) {
+        if (isEmpty(variableRules)) {
             return true;
         }
         for (let rule of variableRules) {
