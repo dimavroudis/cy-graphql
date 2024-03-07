@@ -1,5 +1,7 @@
 # @mavrou/cy-graphql
-[![build](https://github.com/dimavroudis/cy-graphql/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/dimavroudis/cy-graphql/actions/workflows/build.yml) ![cypress version](https://img.shields.io/badge/cypress-9.6.1-brightgreen)
+[![build](https://github.com/dimavroudis/cy-graphql/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/dimavroudis/cy-graphql/actions/workflows/build.yml) [![NPM Version](https://img.shields.io/npm/v/%40mavrou%2Fcy-graphql?logo=npm)](https://www.npmjs.com/package/@mavrou/cy-graphql) ![npms.io](https://img.shields.io/npms-io/final-score/%40mavrou%2Fcy-graphql?logo=npm)
+ [![NPM Downloads](https://img.shields.io/npm/dw/%40mavrou%2Fcy-graphql?logo=npm)](https://www.npmjs.com/package/@mavrou/cy-graphql)
+
 > A collection of custom commands for end-to-end GraphQL testing
 
 ## Install
