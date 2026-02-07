@@ -11,5 +11,6 @@ export default defineConfig({
         env: {
             gqlUrl: 'http://localhost:4000/graphql',
         },
+        allowCypressEnv: false,
     },
 });
