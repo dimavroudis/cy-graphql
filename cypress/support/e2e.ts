@@ -1,2 +1,2 @@
 // adds custom commands
-import '../../dist/support'
+import '../../dist/support';

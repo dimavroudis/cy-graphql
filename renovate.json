@@ -1,28 +1,19 @@
 {
-  "extends": [
-    "config:base"
-  ],
-  "automerge": true,
-  "major": {
-    "automerge": false
-  },
-  "prHourlyLimit": 2,
-  "updateNotScheduled": false,
-  "timezone": "Europe/Athens",
-  "schedule": [
-    "every weekend"
-  ],
-  "masterIssue": true,
-  "packageRules": [
-    {
-      "packagePatterns": [
-        "*"
-      ],
-      "excludePackagePatterns": [
-        "cypress",
-        "start-server-and-test"
-      ],
-      "enabled": false
-    }
-  ]
+    "extends": ["config:base"],
+    "automerge": true,
+    "major": {
+        "automerge": false
+    },
+    "prHourlyLimit": 2,
+    "updateNotScheduled": false,
+    "timezone": "Europe/Athens",
+    "schedule": ["every weekend"],
+    "masterIssue": true,
+    "packageRules": [
+        {
+            "packagePatterns": ["*"],
+            "excludePackagePatterns": ["cypress", "start-server-and-test"],
+            "enabled": false
+        }
+    ]
 }

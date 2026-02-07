@@ -1,49 +1,49 @@
 {
-  "name": "@mavrou/cy-graphql",
-  "version": "2.3.0",
-  "description": "Cypress custom commands for GraphQL testing",
-  "main": "dist/index.js",
-  "types": "dist/types.d.ts",
-  "files": [
-    "/dist/*"
-  ],
-  "scripts": {
-    "test": "cypress run",
-    "cy:open": "cypress open",
-    "start": "node server",
-    "e2e": "start-test 4000",
-    "dev": "start-test 4000 cy:open",
-    "build": "tsc",
-    "build:watch": "tsc --watch"
-  },
-  "keywords": [
-    "cypress",
-    "graphql",
-    "cy-graphql"
-  ],
-  "author": "Dimitris Mavroudis <im.dimitris.mavroudis@gmail.com> (https://mavrou.gr/)",
-  "license": "MIT",
-  "devDependencies": {
-    "@types/node": "^24.1.0",
-    "cypress": "15.10.0",
-    "express": "^5.1.0",
-    "express-graphql": "^0.12.0",
-    "graphql": "^15.8.0",
-    "start-server-and-test": "2.1.3",
-    "typescript": "5.9.3"
-  },
-  "peerDependencies": {
-    "cypress": ">=3"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/dimavroudis/cy-graphql.git"
-  },
-  "bugs": {
-    "url": "https://github.com/dimavroudis/cy-graphql/issues"
-  },
-  "homepage": "https://github.com/dimavroudis/cy-graphql#readme"
+    "name": "@mavrou/cy-graphql",
+    "version": "2.3.0",
+    "description": "Cypress custom commands for GraphQL testing",
+    "main": "dist/index.js",
+    "types": "dist/types.d.ts",
+    "files": [
+        "/dist/*"
+    ],
+    "scripts": {
+        "test": "cypress run",
+        "cy:open": "cypress open",
+        "start": "node server",
+        "e2e": "start-test 4000",
+        "dev": "start-test 4000 cy:open",
+        "build": "tsc",
+        "build:watch": "tsc --watch"
+    },
+    "keywords": [
+        "cypress",
+        "graphql",
+        "cy-graphql"
+    ],
+    "author": "Dimitris Mavroudis <im.dimitris.mavroudis@gmail.com> (https://mavrou.gr/)",
+    "license": "MIT",
+    "devDependencies": {
+        "@types/node": "^24.1.0",
+        "cypress": "15.10.0",
+        "express": "^5.1.0",
+        "express-graphql": "^0.12.0",
+        "graphql": "^15.8.0",
+        "start-server-and-test": "2.1.3",
+        "typescript": "5.9.3"
+    },
+    "peerDependencies": {
+        "cypress": ">=3"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/dimavroudis/cy-graphql.git"
+    },
+    "bugs": {
+        "url": "https://github.com/dimavroudis/cy-graphql/issues"
+    },
+    "homepage": "https://github.com/dimavroudis/cy-graphql#readme"
 }
