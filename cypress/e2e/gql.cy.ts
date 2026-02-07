@@ -8,41 +8,32 @@ describe('cy.gql', () => {
                 hello
             }`
         );
-    })
-
+    });
 
     it('calls gql several times', () => {
-        const payload =
-            `query HelloWorld{
+        const payload = `query HelloWorld{
                 hello
             }`;
 
-        cy.gql(payload)
-        cy.gql(payload)
-        cy.gql(payload)
-    })
+        cy.gql(payload);
+        cy.gql(payload);
+        cy.gql(payload);
+    });
 
     it('yields graphql query result', () => {
         cy.gql(
             `query HelloWorld{
                 hello
-            }`,
+            }`
         ).then(response => {
-            expect(response).to.include.keys([
-                'status',
-                'statusText',
-                'body',
-                'requestHeaders',
-                'headers',
-                'duration'
-            ])
+            expect(response).to.include.keys(['status', 'statusText', 'body', 'requestHeaders', 'headers', 'duration']);
             expect(response.body).to.deep.equal({
                 data: {
-                    hello: 'Hello world!'
-                }
+                    hello: 'Hello world!',
+                },
             });
         });
-    })
+    });
 
     it('calls gql command with variables', () => {
         cy.gql(
@@ -58,12 +49,12 @@ describe('cy.gql', () => {
             expect(response.body).to.deep.equal({
                 data: {
                     todo: {
-                        id: 1
-                    }
-                }
+                        id: 1,
+                    },
+                },
             });
         });
-    })
+    });
 
     it('calls gql command with cy.request options', () => {
         cy.gql(
@@ -71,14 +62,14 @@ describe('cy.gql', () => {
                 hello
             }`,
             {
-                headers: { 'Authorization': "Bearer bearerToken" }
+                headers: { Authorization: 'Bearer bearerToken' },
             }
         ).then(response => {
             expect(response.body).to.deep.equal({
                 data: {
-                    hello: 'Hello you!'
-                }
+                    hello: 'Hello you!',
+                },
             });
         });
-    })
-})
+    });
+});

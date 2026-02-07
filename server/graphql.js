@@ -16,18 +16,18 @@ const schema = buildSchema(`
 
 const printHelloWorld = async function (_, context) {
     const { token } = await context();
-    if(token){
+    if (token) {
         return 'Hello you!';
     }
     return 'Hello world!';
-}
+};
 
 const getTodo = function (args) {
     const id = args.id;
     return TODO.filter(todo => {
         return todo.id == id;
     })[0];
-}
+};
 
 const getTodos = function (args) {
     const showHidden = args.showHidden ?? false;
@@ -35,31 +35,31 @@ const getTodos = function (args) {
         return TODO.filter(todo => todo.hidden === false);
     }
     return TODO;
-}
+};
 
 const TODO = [
     {
         id: 1,
         text: 'Learn Node.js by building real-world applications with Node, Express, MongoDB, Mocha, and more!',
-        hidden: false
+        hidden: false,
     },
     {
         id: 2,
         text: 'Learn by example building & deploying real-world Node.js applications from absolute scratch',
-        hidden: true
+        hidden: true,
     },
     {
         id: 3,
         text: 'An advanced JavaScript course for everyone! Scope, closures, prototypes, this, build your own framework, and more.',
-        hidden: false
-    }
+        hidden: false,
+    },
 ];
 
 // The root provides a resolver function for each API endpoint
 const root = {
     hello: printHelloWorld,
     todo: getTodo,
-    todos: getTodos
+    todos: getTodos,
 };
 
 module.exports = { root, schema, TODO };
