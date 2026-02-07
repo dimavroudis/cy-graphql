@@ -28,6 +28,7 @@ Cypress.Commands.add('gql', (query: string, options: Partial<GraphQLOptions> = {
 
         const requestOptions = {
             ..._options,
+            method: 'POST',
             headers,
             body,
             url,
