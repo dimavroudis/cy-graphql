@@ -1,7 +1,7 @@
-const { buildSchema } = require('graphql');
+const { makeExecutableSchema } = require('@graphql-tools/schema');
 
 // Construct a schema, using GraphQL schema language
-const schema = buildSchema(`
+const typeDefs = `
   type Query {
     hello: String
     todo(id: Int!): Todo
@@ -12,24 +12,24 @@ const schema = buildSchema(`
     text: String
     hidden: Boolean
   }
-`);
+`;
 
-const printHelloWorld = async function (_, context) {
-    const { token } = await context();
+const printHelloWorld = function (_source, _args, context, _info) {
+    const { token } = context;
     if (token) {
         return 'Hello you!';
     }
     return 'Hello world!';
 };
 
-const getTodo = function (args) {
+const getTodo = function (_source, args, _context, _info) {
     const id = args.id;
     return TODO.filter(todo => {
         return todo.id == id;
     })[0];
 };
 
-const getTodos = function (args) {
+const getTodos = function (_source, args, _context, _info) {
     const showHidden = args.showHidden ?? false;
     if (showHidden == false) {
         return TODO.filter(todo => todo.hidden === false);
@@ -55,11 +55,17 @@ const TODO = [
     },
 ];
 
-// The root provides a resolver function for each API endpoint
-const root = {
-    hello: printHelloWorld,
-    todo: getTodo,
-    todos: getTodos,
+const resolvers = {
+    Query: {
+        hello: printHelloWorld,
+        todo: getTodo,
+        todos: getTodos,
+    },
 };
 
-module.exports = { root, schema, TODO };
+const schema = makeExecutableSchema({
+    typeDefs,
+    resolvers,
+});
+
+module.exports = { schema, TODO };
