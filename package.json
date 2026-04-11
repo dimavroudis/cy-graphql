@@ -30,7 +30,7 @@
         "express": "^5.1.0",
         "graphql": "^16.0.0",
         "graphql-yoga": "^5.18.0",
-        "start-server-and-test": "3.0.0",
+        "start-server-and-test": "3.0.2",
         "typescript": "5.9.3"
     },
     "peerDependencies": {
